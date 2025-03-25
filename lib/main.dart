@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gsheet/gsheet_setup.dart';
 import 'package:gsheets/gsheets.dart';
 
-void main() {
+Future main()async {
+  WidgetsFlutterBinding.ensureInitialized;
+  await GsheetIntIt();
+  
   runApp(const MyApp());
 }
 
