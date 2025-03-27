@@ -85,6 +85,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: TextButton(
+                onPressed: () {},
+                child: Text('Save', style: TextStyle(fontSize: 20)),
+              ),
+            ),
           ],
         ),
       ),
