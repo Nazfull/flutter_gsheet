@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gsheet/gsheet_setup.dart';
 import 'package:gsheets/gsheets.dart';
+import 'package:flutter_gsheet/gsheet_crud.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized;
@@ -36,7 +39,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Gsheet Demo'),
+      home: const MyHomePage(title: 'Budget Tracker'),
     );
   }
 }
@@ -52,6 +55,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final inputText = TextEditingController();
+  var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+
+  Random _rnd = Random();
+
+  String? ID;
+
+  UniqueIdGenerator() async {
+    Random random = await new Random();
+    int randomNumber = await random.nextInt(10000);
+
+    String getRandomString(int length) => String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +109,17 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await UniqueIdGenerator();
+                  List<Map<String, dynamic>> userDetailsList = [
+                    {
+                      'id': '${ID}',
+                      'name': '${inputText == null ? '' : inputText.text}',
+                    },
+                  ];
+
+                  await InsertDataIntoSheet(userDetailsList);
+                },
                 child: Text('Save', style: TextStyle(fontSize: 20)),
               ),
             ),
