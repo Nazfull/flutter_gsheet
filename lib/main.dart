@@ -71,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
         (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
       ),
     );
+
+    ID = await '${randomNumber}${getRandomString(10)}';
   }
 
   @override
