@@ -125,6 +125,114 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Save', style: TextStyle(fontSize: 20)),
               ),
             ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: TextButton(
+                onPressed: () async {
+                  await readDataFromSheet();
+                },
+                child: Text('Fetch Data', style: TextStyle(fontSize: 20)),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: TextButton(
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const _ReadPopUp()),
+                  );
+                },
+                child: Text('View', style: TextStyle(fontSize: 20)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ReadPopUp extends StatelessWidget {
+  const _ReadPopUp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    readDataFromSheet();
+    final List _data = dataFromSheet;
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('List')),
+      // body: Center(
+      //   child: ElevatedButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     child: const Text('Exit'),
+      //   ),
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              child: Table(
+                border: TableBorder.all(color: Colors.black),
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: [
+                  const TableRow(
+                    decoration: BoxDecoration(color: Colors.blueGrey),
+                    children: [
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'CATEGORY',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'SPENDING',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  ...List.generate(
+                    _data.length,
+                    (index) => TableRow(
+                      children: [
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('${_data[index]['name']} '),
+                          ),
+                        ),
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Title 2'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
